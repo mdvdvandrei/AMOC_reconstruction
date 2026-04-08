@@ -1,6 +1,6 @@
 # AMOC reconstruction from surface fields (CMIP6 / CMIP5 + deep learning)
 
-Deep learning pipeline for reconstructing Atlantic Meridional Overturning Circulation (AMOC) at 26.5°N from gridded sea-surface properties (e.g. SST, SSH), trained on ensembles of climate models. The code supports heteroscedastic (mean + uncertainty) networks, leave-one-model-out cross-validation, and a full suite of evaluation and publicationfigures.
+Deep learning pipeline for reconstructing Atlantic Meridional Overturning Circulation (AMOC) at 26.5°N from gridded sea-surface properties (SST, SSH), trained on ensembles of climate models. The code supports heteroscedastic (mean + uncertainty) networks, leave-one-model-out cross-validation, and a full suite of evaluation and publicationfigures.
 
 ## Purpose of the code
 
