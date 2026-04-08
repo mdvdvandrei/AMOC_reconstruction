@@ -1,0 +1,11 @@
+{
+  "date": "2026-02-25",
+  "save_name": "bnn_test_god_bless_it_work_all_vars_all_models_test_24",
+  "scenario": "historical",
+  "target_var": "y_no_ekman",
+  "output_type": "max",
+  "selected_lats": [
+    26.5
+  ],
+  "lpf": "LPF24"
+}

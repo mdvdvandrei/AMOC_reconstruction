@@ -1,0 +1,126 @@
+# your exact params, adapted to this two-model pipeline
+
+defaults:
+  - override hydra/job_logging: disabled  # (optional) disable Hydra's default logging
+
+# Data-related settings
+base_dir: "monthly_stream_zarr" #"monthly_stream_zarr"
+seed: 42
+
+# All trainable models (CSV)
+models: "ACCESS-ESM1-5, ACCESS-CM2, GFDL-ESM4, GFDL-CM4, CAS-ESM2-0, MRI-ESM2-0, INM-CM4-8, MIROC6, CanESM5, CanESM5-CanOE, NorESM2-LM, NorESM2-MM, HadGEM3-GC31-LL, UKESM1-1-LL, HadGEM3-GC31-MM, MPI-ESM1-2-HR, CMCC-ESM2, GISS-E2-1-G, IPSL-CM6A-LR"
+
+
+#ACCESS-ESM1-5, ACCESS-CM2, GFDL-ESM4, GFDL-CM4, CAS-ESM2-0, MRI-ESM2-0, INM-CM4-8, FGOALS-g3, MIROC6,
+# Scenarios (CSV)
+scenarios: "piControl,historical,ssp585,ssp126,ssp245"
+
+# Input vars
+x_vars: "tos,zos_minus_basin_mean"
+
+# Selected latitudes 
+selected_lats: "26.5"
+
+# Preprocessing for x variable (LPF120 or LPF24)
+lpf: "LPF120"
+
+noise:
+
+# Whether data is monthly (not passed to dataset here; leave as meta)
+monthly: true
+
+# Target settings
+target_var: "y"      # with ekman / y_no_ekman / ekman
+output_type: "max"
+
+# Validation folds (CSV) — will run a fold per entry
+
+
+val_model: "ACCESS-ESM1-5, ACCESS-CM2, GFDL-ESM4, GFDL-CM4, CAS-ESM2-0, MRI-ESM2-0, FGOALS-g3, GFDL-ESM4, GFDL-CM4,  MRI-ESM2-0, MIROC6, CanESM5, CanESM5-CanOE, NorESM2-LM, NorESM2-MM, HadGEM3-GC31-LL, UKESM1-1-LL, HadGEM3-GC31-MM, MPI-ESM1-2-HR, CMCC-ESM2, GISS-E2-1-G, IPSL-CM6A-LR"
+
+cmip5_test_models: "ACCESS1-0, FGOALS-s2, CanESM2, MPI-ESM-LR, MRI-CGCM3, MPI-ESM-MR"
+
+model_args:
+  dims:   [48, 96, 192, 384]
+  depths: [3, 3, 9, 3]
+  dropout: 0.5
+  sigma_tanh_scale: 8.0
+  use_flat_skip: true
+  anti_alias: true
+  blur_sigma: 1.0
+
+
+
+# Global
+weight_decay: 1e-4
+# Directory (under project root) where training saves checkpoints and inference loads them
+weights_root: weights
+save_name: "bnn_test_god_bless_it_work_all_vars_all_models_test_120_y"  #bnn_test_god_bless_it_work_test_2models_last_linear_skip_just_join_new_model
+linear_activation: false
+val_scenario: "historical+rcp85_to2015" # for CMIP5
+wandb_project: "CMIP6_TwoModel"
+
+# ----- μ training -----
+
+
+training:
+  batch_size: 128
+  num_workers: 12
+  learning_rate: 1e-4
+  weight_decay: 1e-3                                                                                      
+
+  mu_epochs: 64
+  warmup_epochs: 1
+  epochs: 128          # total epochs (Stage-2: epochs - mu_epochs)
+  t0: 16              # T_0 for CosineAnnealingWarmRestarts (Stage-2)
+
+  var_lambda0: 0   # coefficient on (log σ²)²
+  var_lambda_tau: 10  # exponential decay time scale for λ
+  early_stop_patience: 32
+
+
+mu:
+  loss: "huber"       # "huber" | "l1" | "mse"
+  huber_beta: 0.5
+
+
+
+
+data:
+  add_coords: false
+  use_sin_cos: false
+  combine_x_vars: true
+  # If you have actual longitudes (list of length W), set them here:
+  lon_values: [-80.5, -79.5, -78.5, -77.5, -76.5, -75.5, -74.5, -73.5, -72.5,
+       -71.5, -70.5, -69.5, -68.5, -67.5, -66.5, -65.5, -64.5, -63.5,
+       -62.5, -61.5, -60.5, -59.5, -58.5, -57.5, -56.5, -55.5, -54.5,
+       -53.5, -52.5, -51.5, -50.5, -49.5, -48.5, -47.5, -46.5, -45.5,
+       -44.5, -43.5, -42.5, -41.5, -40.5, -39.5, -38.5, -37.5, -36.5,
+       -35.5, -34.5, -33.5, -32.5, -31.5, -30.5, -29.5, -28.5, -27.5,
+       -26.5, -25.5, -24.5, -23.5, -22.5, -21.5, -20.5, -19.5, -18.5,
+       -17.5, -16.5, -15.5, -14.5, -13.5, -12.5, -11.5, -10.5,  -9.5,
+        -8.5,  -7.5,  -6.5,  -5.5,  -4.5,  -3.5,  -2.5,  -1.5,  -0.5,
+         0.5,   1.5,   2.5,   3.5,   4.5,   5.5,   6.5,   7.5,   8.5,
+         9.5,  10.5,  11.5,  12.5,  13.5,  14.5,  15.5,  16.5,  17.5,
+        18.5,  19.5,  20.5,  21.5,  22.5,  23.5,  24.5,  25.5,  26.5]
+  # Actual latitudes (H values) for the input grid:
+  lat_values:
+    [
+      -60.5, -59.5, -58.5, -57.5, -56.5, -55.5, -54.5, -53.5, -52.5,
+      -51.5, -50.5, -49.5, -48.5, -47.5, -46.5, -45.5, -44.5, -43.5,
+      -42.5, -41.5, -40.5, -39.5, -38.5, -37.5, -36.5, -35.5, -34.5,
+      -33.5, -32.5, -31.5, -30.5, -29.5, -28.5, -27.5, -26.5, -25.5,
+      -24.5, -23.5, -22.5, -21.5, -20.5, -19.5, -18.5, -17.5, -16.5,
+      -15.5, -14.5, -13.5, -12.5, -11.5, -10.5,  -9.5,  -8.5,  -7.5,
+       -6.5,  -5.5,  -4.5,  -3.5,  -2.5,  -1.5,  -0.5,   0.5,   1.5,
+        2.5,   3.5,   4.5,   5.5,   6.5,   7.5,   8.5,   9.5,  10.5,
+       11.5,  12.5,  13.5,  14.5,  15.5,  16.5,  17.5,  18.5,  19.5,
+       20.5,  21.5,  22.5,  23.5,  24.5,  25.5,  26.5,  27.5,  28.5,
+       29.5,  30.5,  31.5,  32.5,  33.5,  34.5,  35.5,  36.5,  37.5,
+       38.5,  39.5,  40.5,  41.5,  42.5,  43.5,  44.5,  45.5,  46.5,
+       47.5,  48.5,  49.5,  50.5,  51.5,  52.5,  53.5,  54.5,  55.5,
+       56.5,  57.5,  58.5,  59.5,  60.5,  61.5,  62.5,  63.5,  64.5,
+       65.5,  66.5,  67.5,  68.5,  69.5,  70.5,  71.5,  72.5,  73.5,
+       74.5,  75.5,  76.5,  77.5,  78.5,  79.5,  80.5,  81.5,  82.5
+    ]
+

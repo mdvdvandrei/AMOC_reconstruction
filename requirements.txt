@@ -1,0 +1,30 @@
+# Core numerics & ML
+numpy>=1.22,<3
+pandas>=2.0
+scipy>=1.9
+torch>=2.0
+tqdm>=4.60
+
+# Experiment config & logging
+hydra-core>=1.3
+omegaconf>=2.3
+wandb>=0.15
+
+# Gridded data & preprocessing
+xarray>=2023.1
+zarr>=2.14
+dask[array]>=2023.1
+netCDF4>=1.6
+h5netcdf>=1.2
+filelock>=3.12
+
+# Geospatial regridding / masks (preprocessing pipelines)
+xesmf>=0.8
+regionmask>=0.12
+
+# Plotting
+matplotlib>=3.7
+seaborn>=0.13
+
+# Parquet artifacts (metrics, series)
+pyarrow>=14.0
