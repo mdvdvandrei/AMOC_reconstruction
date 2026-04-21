@@ -500,10 +500,10 @@ def plot_abs_error_timeseries(run_dir: Path, series: pd.DataFrame) -> None:
 
 
 DATE_LPF24  = "2025-11-14"
-NAME_LPF24  = "bnn_test_god_bless_it_work_all_vars_all_models_test_24"
+NAME_LPF24  = "lpf2_years"
 
 DATE_LPF120 = "2026-02-25"
-NAME_LPF120 = "bnn_test_god_bless_it_work_all_vars_all_models_test_120_y"
+NAME_LPF120 = "lpf10_years"
 
 
 def plot_per_model_reconstructions(run_dir: Path, tag: str = "") -> None:
