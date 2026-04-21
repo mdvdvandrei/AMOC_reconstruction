@@ -164,7 +164,7 @@ def main():
     
     # Weight pattern for SSH
     ssh_pattern = os.path.join(
-        WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_24",
+        WEIGHTS_ROOT_DIR, "lpf2_years",
         "zos_minus_basin_mean", "*", "best_stage2_joint.pt"
     )
     
@@ -249,7 +249,7 @@ def main():
     
     # Weight pattern for SST LPF24
     sst_pattern = os.path.join(
-        WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_24",
+        WEIGHTS_ROOT_DIR, "lpf2_years",
         "tos", "*", "best_stage2_joint.pt"
     )
     
