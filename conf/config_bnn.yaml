@@ -54,7 +54,7 @@ model_args:
 weight_decay: 1e-4
 # Directory (under project root) where training saves checkpoints and inference loads them
 weights_root: weights
-save_name: "lpf_10yrs" 
+save_name: "lpf10_years"  #lpf2_years
 linear_activation: false
 val_scenario: "historical+rcp85_to2015" # for CMIP5
 wandb_project: "CMIP6_TwoModel"
