@@ -1,5 +1,5 @@
 """
-Composite 4-panel publication figure (Nature/Science style).
+Composite 4-panel publication figure.
 
   a) Single-member AMOC reconstruction example — MPI-ESM1-2-HR (LPF 2 yr)
   b) Single-member AMOC reconstruction example — MRI-ESM2-0   (LPF 10 yr)

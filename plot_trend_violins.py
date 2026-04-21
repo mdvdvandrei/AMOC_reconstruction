@@ -1,6 +1,6 @@
 """
 Publication-quality violin plots of trend reconstruction errors
-for multiple trend windows (Nature/Science style).
+for multiple trend windows.
 
 Reads trends.parquet (or .csv) from the artifacts directory and produces
 a 2×2 figure with one panel per trend window. Each panel shows transparent
