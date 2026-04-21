@@ -661,7 +661,7 @@ if __name__ == "__main__":
     if x0.ndim == 2: x0 = x0[np.newaxis]
     in_ch_sst = x0.shape[0]
 
-    sst_pattern = os.path.join(WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_120_y_new",
+    sst_pattern = os.path.join(WEIGHTS_ROOT_DIR, "lpf10_years",
                                "tos", "*", "best_stage2_joint.pt")
 
     all_mus_sst, all_sigs_sst, mu_sst, alea_sst, epi_sst, tot_sst = get_bnn_predictions(
@@ -686,7 +686,7 @@ if __name__ == "__main__":
     if x0_ssh.ndim == 2: x0_ssh = x0_ssh[np.newaxis]
     in_ch_ssh = x0_ssh.shape[0]
 
-    ssh_pattern = os.path.join(WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_24",
+    ssh_pattern = os.path.join(WEIGHTS_ROOT_DIR, "lpf2_years",
                                "zos_minus_basin_mean", "*", "best_stage2_joint.pt")
 
     all_mus_ssh, all_sigs_ssh, mu_ssh, alea_ssh, epi_ssh, tot_ssh = get_bnn_predictions(
@@ -1763,7 +1763,7 @@ if __name__ == "__main__":
             if x0.ndim == 2: x0 = x0[np.newaxis]
             in_ch_sst = x0.shape[0]
             sst_pattern = os.path.join(
-                WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_24",
+                WEIGHTS_ROOT_DIR, "lpf2_years",
                 "tos", "*", "best_stage2_joint.pt"
             )
             _, _, mu_sst, alea_sst, epi_sst, tot_sst = get_bnn_predictions(
@@ -1865,7 +1865,7 @@ if __name__ == "__main__":
         
         # Weights for SST LPF24 (same dir as SSH but "tos" instead of "zos_minus_basin_mean")
         sst_lpf24_pattern = os.path.join(
-            WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_24",
+            WEIGHTS_ROOT_DIR, "lpf2_years",
             "tos", "*", "best_stage2_joint.pt"
         )
         
@@ -2058,7 +2058,7 @@ if __name__ == "__main__":
     
     # Weights for 120-month (10-year) filter
     sst_weights_pattern = os.path.join(
-        WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_120_y_new",
+        WEIGHTS_ROOT_DIR, "lpf10_years",
         "tos", "*", "best_stage2_joint.pt"
     )
     
@@ -2325,14 +2325,13 @@ if __name__ == "__main__":
 
     # ================================================================
     #  SAME MULTI-SST CHECK BUT WITH DETRENDED MODEL WEIGHTS
-    #  <weights_root>/bnn_test_god_bless_it_work_all_vars_all_models_test_120_y_detrended
     # ================================================================
     print("\n" + "="*70)
     print("  AMOC ANOMALIES FROM MULTIPLE SST (LPF10) — DETRENDED MODEL")
     print("="*70 + "\n")
 
     sst_weights_pattern_detrended = os.path.join(
-        WEIGHTS_ROOT_DIR, "bnn_test_god_bless_it_work_all_vars_all_models_test_120_y_detrended",
+        WEIGHTS_ROOT_DIR, "lpf10_years",
         "tos", "*", "best_stage2_joint.pt"
     )
 
