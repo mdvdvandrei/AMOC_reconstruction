@@ -25,13 +25,13 @@ SCENARIO   = "historical"
 RUNS = {
     "LPF24": {
         "dir": (ARTIF_ROOT / "2025-11-14"
-                / "bnn_test_god_bless_it_work_all_vars_all_models_test_24"
+                / "lpf2_years"
                 / SCENARIO),
         "months": 24,
     },
     "LPF120": {
         "dir": (ARTIF_ROOT / "2026-02-17"
-                / "bnn_test_god_bless_it_work_all_vars_all_models_test_120_y"
+                / "lpf10_years"
                 / SCENARIO),
         "months": 120,
     },
