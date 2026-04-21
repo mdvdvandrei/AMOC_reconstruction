@@ -24,7 +24,7 @@ from matplotlib.patches import Patch
 
 # ── Config ────────────────────────────────────────────────────────────────────
 DATE       = "2026-02-17"
-SAVE_NAME  = "bnn_test_god_bless_it_work_all_vars_all_models_test_120_y"
+SAVE_NAME  = "lpf10_years"
 SCENARIO   = "historical"
 ARTIF_ROOT = Path("artifacts")
 
