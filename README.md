@@ -51,7 +51,7 @@ Checkpoints are written under **`weights/<save_name>/`** by default (`weights_ro
   `python inference.py`  
 
 - **Real-world / observation-based inference and manuscript-style figures:**  
-  `python inference_obs_new.py`  
+  `python inference_obs_rw.py`  
 
 - **CMIP5-specific inference**:  
   `python inference_cmip5.py`
