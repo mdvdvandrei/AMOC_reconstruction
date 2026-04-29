@@ -313,11 +313,9 @@ class PreprocessedDataset(Dataset):
             self.data_annual = self.data.resample(time='1Y').mean()
             #self.detrended_data = detrending(self.data[:])
             self.mean = self.data_annual[10:70].mean(dim='time')
-            #self.std = np.std(self.detrended_data, axis = 0)
         else:
             #self.detrended_data = detrending(self.data[:12*100])
-            self.mean = self.data[10*12:70*12].mean(dim='time') #12*100
-            #self.std = np.std(self.data[:], axis = 0)
+            self.mean = self.data[10*12:70*12].mean(dim='time') # during training, anomalies are computed relative to the piControl mean; during inference on observations, anomalies are computed relative to the 1880–1940 mean
             
 
         
