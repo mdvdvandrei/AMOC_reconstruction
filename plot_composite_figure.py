@@ -15,6 +15,7 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+from model_selection import CMIP6_MODELS
 
 # ── Paths & config ───────────────────────────────────────────────────────────
 ARTIF_ROOT = Path("artifacts")
@@ -52,7 +53,6 @@ RECON_B_SV_PER_C   = 1.6057
 SST_BASELINE_YEARS = 100
 
 TREND_WINDOW = (1900, 2000)
-EXCLUDE_MODELS = {"CAS-ESM2-0"}
 
 C_TRUTH     = "black"
 C_SST_INDEX = "#7F7F7F"
@@ -213,7 +213,7 @@ def _plot_violin(ax, trends_df: pd.DataFrame):
     tw_start, tw_end = TREND_WINDOW
     sub = trends_df[(trends_df["trend_start"] == tw_start)
                     & (trends_df["trend_end"] == tw_end)
-                    & (~trends_df["model"].isin(EXCLUDE_MODELS))].copy()
+                    & (trends_df["model"].isin(CMIP6_MODELS))].copy()
     sub = sub[np.isfinite(sub["trend_sim"])].copy()
     sub["err_sst"] = sub["trend_sst"] - sub["trend_sim"]
     sub["err_nn"]  = sub["trend_nn"]  - sub["trend_sim"]

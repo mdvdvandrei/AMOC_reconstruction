@@ -535,7 +535,7 @@ def process_y_member(model:str, yvar:str, files:List[str],
             if "basin" in da.dims:
                 idx=1 if model in [
                     "MPI-ESM1-2-HR","CNRM-CM6-1-HR","EC-Earth3",
-                    "IPSL-CM6A-MR1","IPSL-CM6A-LR","E3SM-1-0", "CAS-ESM2-0"] else 0
+                    "IPSL-CM6A-MR1","IPSL-CM6A-LR","E3SM-1-0"] else 0
                 da=da.isel(basin=idx)
             if "depth" in da.dims and "lev" not in da.dims:
                 da=da.rename({"depth":"lev"})
@@ -547,10 +547,6 @@ def process_y_member(model:str, yvar:str, files:List[str],
             lev_units = da.lev.attrs.get("units", "").lower()
             if lev_units in ("cm", "centimeter", "centimeters"):
                 da = da.assign_coords(lev=da.lev / 100)
-
-            if model == "CAS-ESM2-0":
-                da = da.where(np.abs(da) < 1e30)
-
 
             if model == "IPSL-CM6A-LR":
                     da = da[:,:,:,0]
@@ -1182,7 +1178,7 @@ if __name__=="__main__":
     "MRI-ESM2-0","MIROC6","CanESM5","GISS-E2-1-G",
     "NorESM2-LM","NorESM2-MM", 
     "HadGEM3-GC31-LL","UKESM1-1-LL","CMCC-ESM2","HadGEM3-GC31-MM",
-    "MPI-ESM1-2-HR","INM-CM4-8","CanESM5-CanOE","GFDL-CM4", "IPSL-CM6A-LR", "CAS-ESM2-0"
+    "MPI-ESM1-2-HR","CanESM5-CanOE","GFDL-CM4", "IPSL-CM6A-LR"
     ]
 
     #models   = ["ACCESS-CM2"]  # subset for quick tests

@@ -400,7 +400,7 @@ def process_y_var(model, y_var, files, monthly,
                 if "basin" in da.dims:
                     basin_idx = 1 if model in [
                         "MPI-ESM1-2-HR", "CNRM-CM6-1-HR", "EC-Earth3",
-                        "IPSL-CM6A-MR1", "IPSL-CM6A-LR", "E3SM-1-0", "CAS-ESM2-0"
+                        "IPSL-CM6A-MR1", "IPSL-CM6A-LR", "E3SM-1-0"
                     ] else 0
                     da = da.isel(basin=basin_idx)
 
@@ -429,11 +429,6 @@ def process_y_var(model, y_var, files, monthly,
                     pass  # assume ≈ m
 
                 # --- lat rename -------------------------------------------
-
-                if model == "CAS-ESM2-0":
-                    da = da.where(np.abs(da) < 1e30)
-
-
 
                 if model == "IPSL-CM6A-LR":
                     # IPSL gives nav_lat[y] as a 1-D array
@@ -703,7 +698,7 @@ if __name__ == "__main__":
         "GISS-E2-1-G", "NorESM2-LM", "NorESM2-MM",
         "HadGEM3-GC31-LL", "UKESM1-1-LL", "CMCC-ESM2",
         "HadGEM3-GC31-MM", "MPI-ESM1-2-HR",
-        "INM-CM4-8", "CanESM5-CanOE", "GFDL-CM4",
+        "CanESM5-CanOE", "GFDL-CM4",
     ]
 
     models  = ["FGOALS-g3"]

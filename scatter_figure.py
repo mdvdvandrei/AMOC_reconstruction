@@ -159,7 +159,7 @@ if __name__ == "__main__":
         "MRI-ESM2-0","MIROC6","CanESM5","GISS-E2-1-G",
         "NorESM2-LM","NorESM2-MM","HadGEM3-GC31-LL","UKESM1-1-LL",
         "CMCC-ESM2","HadGEM3-GC31-MM","MPI-ESM1-2-HR","CanESM5-CanOE",
-        "GFDL-CM4","IPSL-CM6A-LR", "CAS-ESM2-0"
+        "GFDL-CM4","IPSL-CM6A-LR"
     ]
 
     test_members = [f"r{i}i1p1f1" for i in range(1, 12)]  # CESM2 r1..r11

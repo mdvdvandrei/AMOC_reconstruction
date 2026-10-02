@@ -973,7 +973,7 @@ if __name__ == "__main__":
 
     dataset = PreprocessedCMIP6DatasetInMem(
         zarr_dir     = "/home/am334/link_am334/moc_mmodel/monthly_1deg_grid_with_coasts_EK_minus",
-        models       = [ "ACCESS-ESM1-5"], #"ACCESS-CM2", "GFDL-ESM4", "GFDL-CM4", "MRI-ESM2-0", "INM-CM4-8", "FGOALS-g3", "MIROC6", "CanESM5", "GISS-E2-1-G", "NorESM2-LM", "NorESM2-MM", "HadGEM3-GC31-LL", "UKESM1-1-LL", "CMCC-ESM2", "HadGEM3-GC31-MM", "MPI-ESM1-2-HR" ],
+        models       = [ "ACCESS-ESM1-5"], #"ACCESS-CM2", "GFDL-ESM4", "GFDL-CM4", "MRI-ESM2-0", "FGOALS-g3", "MIROC6", "CanESM5", "GISS-E2-1-G", "NorESM2-LM", "NorESM2-MM", "HadGEM3-GC31-LL", "UKESM1-1-LL", "CMCC-ESM2", "HadGEM3-GC31-MM", "MPI-ESM1-2-HR" ],
         x_vars       = ["tos"],
         scenarios    = ["piControl", "historical"],
         output_type="max",

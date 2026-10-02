@@ -15,6 +15,7 @@ import torch
 import matplotlib.pyplot as plt
 from matplotlib.dates import YearLocator, DateFormatter
 from pathlib import Path
+from model_selection import CMIP6_MODELS
 
 try:
     from omegaconf import OmegaConf
@@ -70,7 +71,8 @@ def get_bnn_predictions(dataset, weight_pattern, in_ch, out_dim,
     if device is None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    ckpts = sorted(glob.glob(weight_pattern))
+    ckpts = sorted(c for c in glob.glob(weight_pattern)
+                   if Path(c).parent.name in CMIP6_MODELS)
     if exclude_models:
         exclude = [s.lower() for s in exclude_models]
         ckpts = [c for c in ckpts if not any(e in c.lower() for e in exclude)]
@@ -170,7 +172,7 @@ def main():
     
     all_mus_ssh, all_sigs_ssh, mu_ssh, alea_ssh, epi_ssh, tot_ssh = get_bnn_predictions(
         ssh_ds, ssh_pattern, in_ch_ssh, 1, device=DEVICE, batch_size=16,
-        exclude_models=["inm", "cas", "fgoals"]
+        exclude_models=["fgoals"]
     )
     print(f"    ✓ SSH BNN inference complete")
     
@@ -255,7 +257,7 @@ def main():
     
     all_mus_sst, all_sigs_sst, mu_sst, alea_sst, epi_sst, tot_sst = get_bnn_predictions(
         sst_ds, sst_pattern, in_ch_sst, 1, device=DEVICE, batch_size=16,
-        exclude_models=["inm", "cas", "fgoals"]
+        exclude_models=["fgoals"]
     )
     print("    ✓ SST BNN inference complete")
     

@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.legend_handler import HandlerTuple
 from matplotlib.patches import Patch
+from model_selection import CMIP6_MODELS
 
 # ── Config ────────────────────────────────────────────────────────────────────
 DATE       = "2026-02-17"
@@ -356,7 +357,6 @@ def load_series(run_dir: Path) -> pd.DataFrame:
     raise FileNotFoundError(f"series.(parquet|csv) not found in {run_dir}")
 
 
-EXCLUDE_MODELS = {"CAS-ESM2-0"}
 RUNNING_MEAN_WINDOW = 11
 # abs_error_timeseries: inter-model band transparency
 ABS_ERR_FILL_ALPHA = 0.12
@@ -371,9 +371,9 @@ def plot_abs_error_timeseries(run_dir: Path, series: pd.DataFrame) -> None:
     Single-panel |error| with inter-model 25–75 % spread for
     DL SST, DL SSH, and SST index (running-mean curves).
     """
-    ex = ~series["model"].isin(EXCLUDE_MODELS)
-    sub_sst = series[(series["var"] == VAR_SST) & ex].copy()
-    sub_ssh = series[(series["var"] == VAR_SSH) & ex].copy()
+    included = series["model"].map(_model_for_sst_csv).isin(CMIP6_MODELS)
+    sub_sst = series[(series["var"] == VAR_SST) & included].copy()
+    sub_ssh = series[(series["var"] == VAR_SSH) & included].copy()
     sub_sst["abs_err"] = (sub_sst["mu"] - sub_sst["tgt"]).abs()
     sub_ssh["abs_err"] = (sub_ssh["mu"] - sub_ssh["tgt"]).abs()
 

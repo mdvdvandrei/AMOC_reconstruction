@@ -518,7 +518,7 @@ def get_bnn_predictions(dataset, weight_pattern, in_ch, out_dim,
     all_mus  = np.stack(all_mus, axis=0)     # (folds, N)
     all_sigs = np.stack(all_sigs, axis=0)    # (folds, N)
     mu_mean    = all_mus.mean(axis=0)
-    alea_sigma = all_sigs.mean(axis=0)
+    alea_sigma = np.sqrt((all_sigs ** 2).mean(axis=0))
     epi_sigma  = all_mus.std(axis=0)
     total_sigma= np.sqrt(alea_sigma**2 + epi_sigma**2)
     return all_mus, all_sigs, mu_mean, alea_sigma, epi_sigma, total_sigma
@@ -1178,7 +1178,7 @@ if __name__ == "__main__":
         ]
         LOW_MODELS = [
             "ACCESS-CM2", "CMCC-ESM2", "CanESM5", "CanESM5-CanOE",
-            "FGOALS-g3", "GFDL-ESM4", "INM-CM4-8", "MIROC6", "MPI-ESM1-2-HR",
+            "FGOALS-g3", "GFDL-ESM4", "MIROC6", "MPI-ESM1-2-HR",
         ]
 
         def _load_single_model(model_name, base_dir):
