@@ -25,6 +25,11 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from scipy.stats import norm
+import sys
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
 
 # Optional violin plots
 try:
@@ -34,12 +39,11 @@ except Exception:
     _HAVE_SNS = False
 
 # Your datasets
-from dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
-from datasets_cmip_zarr import PreprocessedCMIP6Dataset  # only for LAST_30_YEARS branch if you use it
+from amoc.dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
+from amoc.datasets_cmip_zarr import PreprocessedCMIP6Dataset  # only for LAST_30_YEARS branch if you use it
 
 from omegaconf import OmegaConf
-from train_weights_BNN import ConvNeXtHet
-from models import ConvNeXtRegressorMu, ResidualCNNHetBaseline
+from amoc.models import ConvNeXtHet, ConvNeXtRegressorMu, ResidualCNNHetBaseline
 
 torch.set_default_dtype(torch.float32)
 torch.set_num_threads(8)

@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
+from pathlib import Path
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
+
 os.environ["OMP_NUM_THREADS"]        = "16"
 os.environ["MKL_NUM_THREADS"]        = "16"
 os.environ["TF_NUM_INTEROP_THREADS"] = "16"
@@ -19,8 +26,8 @@ from torch import nn
 import torch.optim as optim
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
 
-from models import TwoBranchModel, CustomSqueezeNet, ResidualCNN, SimpleCNN, SimpleViT
-from dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
+from amoc.models import TwoBranchModel, CustomSqueezeNet, ResidualCNN, SimpleCNN, SimpleViT
+from amoc.dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
 
 # ----------------------- utils -----------------------
 def _reinit_weights(m):

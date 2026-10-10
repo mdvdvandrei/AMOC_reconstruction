@@ -15,12 +15,17 @@ import torch
 import matplotlib.pyplot as plt
 from matplotlib.dates import YearLocator, DateFormatter
 from pathlib import Path
-from model_selection import CMIP6_MODELS
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
+
+from amoc.model_selection import CMIP6_MODELS
 
 try:
     from omegaconf import OmegaConf
     WEIGHTS_ROOT_DIR = str(
-        OmegaConf.load(Path(__file__).resolve().parent / "conf" / "config_bnn.yaml").get("weights_root", "weights")
+        OmegaConf.load(_REPO / "conf" / "config_bnn.yaml").get("weights_root", "weights")
     )
 except Exception:
     WEIGHTS_ROOT_DIR = "weights"
@@ -116,19 +121,17 @@ def get_bnn_predictions(dataset, weight_pattern, in_ch, out_dim,
 #  BNN MODEL & DATASET (copied from obs_datasets.py and inference logic)
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Import from local modules (same as inference_obs_new.py)
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from models import ResidualCNNHet
-from obs_datasets import (
+from amoc.models import ResidualCNNHet
+from amoc.obs_datasets import (
     lowpass_filter,
     PreprocessedSSHDatasetFromZarr,
     PreprocessedDataset
 )
 from torch.utils.data import DataLoader
 
-# Import trend calculation functions from inference_obs_new
+# Trend helpers live in the observational inference script.
 import importlib.util
-inference_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "inference_obs_new.py")
+inference_path = str(_REPO / "inference" / "inference_obs_rw.py")
 spec = importlib.util.spec_from_file_location("inference_obs_new", inference_path)
 inference_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(inference_module)
@@ -238,7 +241,7 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     print("[4/5] Loading SST data and running BNN inference...")
     
-    sst_file = "processed_HadISST_sst.nc"
+    sst_file = "data/processed_HadISST_sst.nc"
     sst_ds = PreprocessedDataset(
         sst_file, variable="__xarray_dataarray_variable__",
         lpf="LPF24", order=5, fs=1, monthly=True, minus_basin_mean=False

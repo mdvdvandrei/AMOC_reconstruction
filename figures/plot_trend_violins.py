@@ -13,7 +13,13 @@ using ``series.parquet`` and ``metrics.parquet``. Example artifact layout:
 """
 
 import json
+import sys
 from pathlib import Path
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
+
 import numpy as np
 import pandas as pd
 import matplotlib as mpl
@@ -21,7 +27,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.legend_handler import HandlerTuple
 from matplotlib.patches import Patch
-from model_selection import CMIP6_MODELS
+from amoc.model_selection import CMIP6_MODELS
 
 # ── Config ────────────────────────────────────────────────────────────────────
 DATE       = "2026-02-17"

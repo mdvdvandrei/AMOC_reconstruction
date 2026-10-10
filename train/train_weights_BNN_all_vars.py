@@ -9,9 +9,14 @@
 # Logging: W&B
 # =============================================================
 
-import os, math, json, copy
+import os, math, json, copy, sys
+from pathlib import Path
 os.environ["OMP_NUM_THREADS"] = "32"
 os.environ["MKL_NUM_THREADS"] = "32"
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
 
 import numpy as np
 import torch
@@ -26,7 +31,7 @@ import wandb
 import hydra
 from omegaconf import DictConfig, OmegaConf
 from hydra.utils import get_original_cwd
-from models import ResidualCNNHetBaseline
+from amoc.models import ResidualCNNHetBaseline
 
 
 torch.set_default_dtype(torch.float32)
@@ -259,7 +264,7 @@ def build_model(in_ch, out_dim, flat_hw, cfg, device):
 
 # ───────────────────── Main (Hydra) ─────────────────────
 
-@hydra.main(config_path="conf", config_name="config_bnn")
+@hydra.main(config_path="../conf", config_name="config_bnn")
 def main(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg, resolve=True))
     seed_everything(int(getattr(cfg, "seed", 42)))
@@ -269,7 +274,7 @@ def main(cfg: DictConfig):
                name=f"CMIP6_ALLVARS_TwoStage_{cfg.save_name}",
                config=OmegaConf.to_container(cfg, resolve=True))
 
-    from dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
+    from amoc.dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
     base_dir = os.path.join(get_original_cwd(), cfg.base_dir)
     weights_root = str(getattr(cfg, "weights_root", "weights"))
 

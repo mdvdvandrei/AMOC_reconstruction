@@ -6,8 +6,12 @@
 #  Nature-like aesthetics + explicit colors for lines
 # ===============================================================
 
-import os, glob, warnings, csv
+import os, glob, warnings, csv, sys
 from pathlib import Path
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
 
 warnings.filterwarnings("ignore")
 
@@ -26,8 +30,8 @@ import dask
 dask.config.set(scheduler='synchronous')
 
 # ─── Your model/dataset imports ────────────────────────────────
-from models import ResidualCNNHet
-from obs_datasets import (
+from amoc.models import ResidualCNNHet
+from amoc.obs_datasets import (
     lowpass_filter,
     PreprocessedDataset,
     PreprocessedSSHDatasetFromZarr
@@ -35,7 +39,7 @@ from obs_datasets import (
 
 try:
     from omegaconf import OmegaConf
-    _OBS_CFG = OmegaConf.load(Path(__file__).resolve().parent / "conf" / "config_bnn.yaml")
+    _OBS_CFG = OmegaConf.load(_REPO / "conf" / "config_bnn.yaml")
     WEIGHTS_ROOT_DIR = str(_OBS_CFG.get("weights_root", "weights"))
 except Exception:
     WEIGHTS_ROOT_DIR = "weights"
@@ -652,7 +656,7 @@ if __name__ == "__main__":
     factor = 12 * 100  # monthly slope → Sv/century
 
     # ── 1) SST ─────────────────────────────────────────────────
-    sst_file = "processed_HadISST_sst.nc"
+    sst_file = "data/processed_HadISST_sst.nc"
     sst_ds   = PreprocessedDataset(
         sst_file, variable="__xarray_dataarray_variable__",
         lpf="LPF120", order=5, fs=1, monthly=True, minus_basin_mean=False
@@ -1754,7 +1758,7 @@ if __name__ == "__main__":
         try:
             mu_sst, times_sst  # noqa
         except NameError:
-            sst_file = "processed_HadISST_sst.nc"
+            sst_file = "data/processed_HadISST_sst.nc"
             sst_ds   = PreprocessedDataset(
                 sst_file, variable="__xarray_dataarray_variable__",
                 lpf="LPF24", order=5, fs=1, monthly=True, minus_basin_mean=False
@@ -1854,7 +1858,7 @@ if __name__ == "__main__":
         
         # --- Load SST dataset with LPF24 and get BNN predictions ---
         print("[INFO] Loading SST with LPF24 for comparison figures...")
-        sst_file_lpf24 = "processed_HadISST_sst.nc"
+        sst_file_lpf24 = "data/processed_HadISST_sst.nc"
         sst_ds_lpf24 = PreprocessedDataset(
             sst_file_lpf24, variable="__xarray_dataarray_variable__",
             lpf="LPF24", order=5, fs=1, monthly=True, minus_basin_mean=False
@@ -2032,9 +2036,9 @@ if __name__ == "__main__":
     print("="*70 + "\n")
     
     SST_DATASETS = {
-        "HadISST": "processed_HadISST_sst.nc",
-        "COBE-SST2": "processed_COBESST2_sst.nc",
-        "ERSST V5": "processed_ERSST5_sst.nc",
+        "HadISST": "data/processed_HadISST_sst.nc",
+        "COBE-SST2": "data/processed_COBESST2_sst.nc",
+        "ERSST V5": "data/processed_ERSST5_sst.nc",
     }
     
     SST_COLORS = {

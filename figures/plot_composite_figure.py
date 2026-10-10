@@ -9,13 +9,19 @@ Composite 4-panel publication figure.
 All data are read from artifact parquet files and the SST CSV.
 """
 
+import sys
 from pathlib import Path
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
+
 import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
-from model_selection import CMIP6_MODELS
+from amoc.model_selection import CMIP6_MODELS
 
 # ── Paths & config ───────────────────────────────────────────────────────────
 ARTIF_ROOT = Path("artifacts")

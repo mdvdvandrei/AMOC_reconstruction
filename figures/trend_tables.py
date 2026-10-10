@@ -13,14 +13,16 @@ import xarray as xr
 from scipy.stats import norm
 
 ROOT = "/dat1/am334/moc_mmodel"
-sys.path.insert(0, ROOT)
 HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+sys.path.insert(0, ROOT)
 sys.path.insert(0, HERE)
+sys.path.insert(0, REPO)
 
 import ssh_trend_honesty as S  # noqa: E402
 from andrews_median_unbiased import rho_hat  # noqa: E402
 from gls_blocks_calibration import block_mean, gls_ar1_wald  # noqa: E402
-from obs_datasets import lowpass_filter  # noqa: E402
+from amoc.obs_datasets import lowpass_filter  # noqa: E402
 
 SLOPE = "GLS"  # "GLS" for the generalised slope, "OLS" for the ordinary one
 BNN = os.path.join(S.ROOT, "bnn_real_world_rec")

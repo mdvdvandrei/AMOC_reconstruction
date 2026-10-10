@@ -45,7 +45,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # ─── Your model and dataset imports ─────────────────────────────────────────
-from models import ResidualCNNHet
+from amoc.models import ResidualCNNHet
 
 
 

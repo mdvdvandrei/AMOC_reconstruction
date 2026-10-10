@@ -38,6 +38,11 @@ import torch
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from scipy.stats import norm
+import sys
+
+_REPO = Path(__file__).resolve().parents[1]
+if str(_REPO) not in sys.path:
+    sys.path.insert(0, str(_REPO))
 
 # Optional violin plots
 try:
@@ -47,10 +52,10 @@ except Exception:
     _HAVE_SNS = False
 
 # ---------------- external (your) modules ----------------
-from dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
-from datasets_cmip_zarr import PreprocessedCMIP6Dataset
+from amoc.dataset_for_cesm2_LE import PreprocessedCMIP6Dataset_LE
+from amoc.datasets_cmip_zarr import PreprocessedCMIP6Dataset
 from omegaconf import OmegaConf
-from models import ResidualCNNHetBaseline
+from amoc.models import ResidualCNNHetBaseline
 
 # ---------------- global settings ----------------
 torch.set_default_dtype(torch.float32)
